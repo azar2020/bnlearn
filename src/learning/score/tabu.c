@@ -188,7 +188,7 @@ SEXP bestop;
   Free1D(scratch);
 
 /*AZARRRRRRRRRRRRRRRRRRRRRRRRRRR*/
-    /* Rprintf("Iteration %d - Current Score: %lf\n", *cur, max); */
+    Rprintf("Iteration %d - Current Score: %lf\n", *cur, max); 
      totalScore += max;
 Rprintf("Adjacency Matrix:\n");
     for (int i = 0; i < nnodes; i++) {
