@@ -90,6 +90,12 @@ there:
 
 /* a single step of tabu search (one arc addition/removal/reversal, plus
  * lookup in the tabu list). */
+
+
+/*AZARRRRRRRRRRRRRRRRRRRRRRRRRRRR*/
+double totalScore = 0.0;
+
+
 SEXP tabu_step(SEXP amat, SEXP nodes, SEXP added, SEXP cache, SEXP reference,
     SEXP wlmat, SEXP blmat, SEXP tabu_list, SEXP current, SEXP baseline,
     SEXP nparents, SEXP maxp, SEXP debug) {
@@ -180,6 +186,23 @@ SEXP bestop;
 
   Free1D(path);
   Free1D(scratch);
+
+/*AZARRRRRRRRRRRRRRRRRRRRRRRRRRR*/
+    /* Rprintf("Iteration %d - Current Score: %lf\n", *cur, max); */
+     totalScore += max;
+Rprintf("Adjacency Matrix:\n");
+    for (int i = 0; i < nnodes; i++) {
+      for (int j = 0; j < nnodes; j++) {
+        Rprintf("%d ", am[CMC(i, j, nnodes)]);
+      }
+      Rprintf("\n");
+    }
+
+    Rprintf("\n");
+       
+   printf("Total Summation of Scores after %d iterations:  %lf\n",*cur, totalScore);
+    
+
 
   UNPROTECT(1);
 
