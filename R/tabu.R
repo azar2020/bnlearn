@@ -330,9 +330,13 @@ cat("Total Summation of Scores after", iter , "iterations:", TOTALSCORE, "\n")
 adjusted_scores <- as.numeric(unlist(best_scores_list)) / TOTALSCORE
 cat("Adjusted Scores List (divided by", TOTALSCORE, "):\n")
 print(adjusted_scores)
-  return(start)
-# Return the list of adjacency matrices along with the final network structure
+          # Return the list of adjacency matrices along with the final network structure
+          cat("List of Adjacency Matrices:\n")
+  print(adjacency_matrices_list)
+
   return(list(adjacency_matrices_list = adjacency_matrices_list, final_network = start))
+
+  return(start)
 
 }#TABU.SEARCH
 
