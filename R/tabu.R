@@ -343,17 +343,19 @@ print(adjusted_scores)
  # Print the list of multiplied scores
   cat("List of Multiplied Scores:\n")
   print(multiplied_scores)
-            # Sum up all components of the multiplied scores
-  total_sum <- sum(do.call(c, multiplied_scores))
-
-  cat("Total Sum of Multiplied Scores:\n")
-  print(total_sum)
+            # Sum up all matrices element-wise
+  final_matrix <- Reduce(`+`, multiplied_scores)
+ # Print the final matrix
+  cat("Final Matrix (sum of multiplied scores):\n")
+  print(final_matrix)
 
   # Return the list of adjacency matrices along with the final network structure
   return(list(adjacency_matrices_list = adjacency_matrices_list, 
               best_scores_list = best_scores_list, 
               multiplied_scores = multiplied_scores,
+              final_matrix = final_matrix,
               final_network = start))
+
  # return(list(adjacency_matrices_list = adjacency_matrices_list, final_network = start))
 
   #return(start)
