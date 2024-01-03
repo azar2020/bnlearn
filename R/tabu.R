@@ -63,7 +63,7 @@ tabu.search = function(x, start, whitelist, blacklist, score, extra.args,
     start$learning$optimized = optimized
 
   }#THEN
-
+TOTALSCORE <- 0
   repeat {
 
     current = as.integer((iter - 1) %% tabu)
@@ -177,6 +177,11 @@ tabu.search = function(x, start, whitelist, blacklist, score, extra.args,
                    nparents = nparents,
                    maxp = maxp,
                    debug = debug)
+#AZARRRRRRRRRRRRRRR
+          cur_score <- bestop$score
+            cat("* score in iteration", iter, ":", best.score, "\n")
+           cat("Weight in iteration", iter , ":", best.score/-105603.6078, "\n")
+          TOTALSCORE <- TOTALSCORE + best.score
 
     # the value FALSE is the canary value in bestop$op meaning "no operation
     # improved the network score"; reconsider prevously discarded solutions
@@ -307,8 +312,11 @@ tabu.search = function(x, start, whitelist, blacklist, score, extra.args,
     else iter = iter + 1
 
   }#REPEAT
-
+cat("Total Summation of Scores after", iter , "iterations:", TOTALSCORE, "\n")
   return(start)
-
+print(best.score)
+ print(TOTALSCORE)  
+ print(best.score/-131645.8081 )
+  
 }#TABU.SEARCH
 
