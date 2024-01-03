@@ -65,6 +65,8 @@ tabu.search = function(x, start, whitelist, blacklist, score, extra.args,
   }#THEN
 TOTALSCORE <- 0
 best_scores_list <- list()
+    # Create an empty list to store adjacency matrices
+  adjacency_matrices_list <- list()
   repeat {
 
     current = as.integer((iter - 1) %% tabu)
@@ -130,6 +132,8 @@ best_scores_list <- list()
 
     # build the adjacency matrix of the current network structure.
     amat = arcs2amat(start$arcs, nodes)
+      # Append the current adjacency matrix to the list
+    adjacency_matrices_list[[iter]] <- amat
     # compute the number of parents of each node.
     nparents = colSums(amat)
 
@@ -327,6 +331,8 @@ adjusted_scores <- as.numeric(unlist(best_scores_list)) / TOTALSCORE
 cat("Adjusted Scores List (divided by", TOTALSCORE, "):\n")
 print(adjusted_scores)
   return(start)
+# Return the list of adjacency matrices along with the final network structure
+  return(list(adjacency_matrices_list = adjacency_matrices_list, final_network = start))
 
 }#TABU.SEARCH
 
