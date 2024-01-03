@@ -321,11 +321,12 @@ best_scores_list <- list()
 
   }#REPEAT
 cat("Total Summation of Scores after", iter , "iterations:", TOTALSCORE, "\n")
-  return(start)
-print(best.score)
+          print(best.score)
  print(TOTALSCORE)  
  print(best.score/-131645.8081 )
   cat("Best Scores List:\n")
 print(best_scores_list)
+  return(start)
+
 }#TABU.SEARCH
 
