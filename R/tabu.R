@@ -180,8 +180,8 @@ TOTALSCORE <- 0
 #AZARRRRRRRRRRRRRRR
           cur_score <- bestop$score
             cat("* score in iteration", iter, ":", best.score, "\n")
-           cat("Weight in iteration", iter , ":", best.score/TOTALSCORE, "\n")
-          TOTALSCORE <- TOTALSCORE + best.score
+            TOTALSCORE <- TOTALSCORE + best.score
+            cat("Weight in iteration", iter , ":", best.score/TOTALSCORE, "\n")
 
     # the value FALSE is the canary value in bestop$op meaning "no operation
     # improved the network score"; reconsider prevously discarded solutions
