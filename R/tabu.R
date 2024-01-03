@@ -343,6 +343,11 @@ print(adjusted_scores)
  # Print the list of multiplied scores
   cat("List of Multiplied Scores:\n")
   print(multiplied_scores)
+            # Sum up all components of the multiplied scores
+  total_sum <- sum(do.call(c, multiplied_scores))
+
+  cat("Total Sum of Multiplied Scores:\n")
+  print(total_sum)
 
   # Return the list of adjacency matrices along with the final network structure
   return(list(adjacency_matrices_list = adjacency_matrices_list, 
