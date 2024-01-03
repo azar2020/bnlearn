@@ -323,7 +323,7 @@ best_scores_list <- list()
 cat("Total Summation of Scores after", iter , "iterations:", TOTALSCORE, "\n")
           print(best.score)
  print(TOTALSCORE)  
-adjusted_scores <- best_scores_list / TOTALSCORE
+adjusted_scores <- as.numeric(unlist(best_scores_list)) / TOTALSCORE
 cat("Adjusted Scores List (divided by", TOTALSCORE, "):\n")
 print(adjusted_scores)
   return(start)
