@@ -64,6 +64,7 @@ tabu.search = function(x, start, whitelist, blacklist, score, extra.args,
 
   }#THEN
 TOTALSCORE <- 0
+best_scores_list <- list()
   repeat {
 
     current = as.integer((iter - 1) %% tabu)
@@ -180,7 +181,7 @@ TOTALSCORE <- 0
 #AZARRRRRRRRRRRRRRR
           cur_score <- bestop$score
             cat("* score in iteration", iter, ":", best.score, "\n")
-            TOTALSCORE <- TOTALSCORE + best.score
+           
             cat("Weight in iteration", iter , ":", best.score/TOTALSCORE, "\n")
 
     # the value FALSE is the canary value in bestop$op meaning "no operation
@@ -272,8 +273,8 @@ TOTALSCORE <- 0
      # Print the resulting matrix
      cat("* Weighted Matrix in iteration", iter, ":\n")
      print(weighted_matrix)
-
-          
+ best_scores_list <- c(best_scores_list, best.score)
+           TOTALSCORE <- TOTALSCORE + best.score
     # set the nodes whose cached score deltas are to be updated.
     if (bestop$op == "reverse")
       updated = which(nodes %in% c(bestop$from, bestop$to)) - 1L
@@ -324,6 +325,7 @@ cat("Total Summation of Scores after", iter , "iterations:", TOTALSCORE, "\n")
 print(best.score)
  print(TOTALSCORE)  
  print(best.score/-131645.8081 )
-  
+  cat("Best Scores List:\n")
+print(best_scores_list)
 }#TABU.SEARCH
 
