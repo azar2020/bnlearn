@@ -323,9 +323,9 @@ best_scores_list <- list()
 cat("Total Summation of Scores after", iter , "iterations:", TOTALSCORE, "\n")
           print(best.score)
  print(TOTALSCORE)  
- print(best.score/-131645.8081 )
-  cat("Best Scores List:\n")
-print(best_scores_list)
+adjusted_scores <- best_scores_list / TOTALSCORE
+cat("Adjusted Scores List (divided by", TOTALSCORE, "):\n")
+print(adjusted_scores)
   return(start)
 
 }#TABU.SEARCH
