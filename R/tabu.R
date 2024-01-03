@@ -186,7 +186,7 @@ best_scores_list <- list()
           cur_score <- bestop$score
             cat("* score in iteration", iter, ":", best.score, "\n")
            
-            cat("Weight in iteration", iter , ":", best.score/TOTALSCORE, "\n")
+            #cat("Weight in iteration", iter , ":", best.score/TOTALSCORE, "\n")
 
     # the value FALSE is the canary value in bestop$op meaning "no operation
     # improved the network score"; reconsider prevously discarded solutions
@@ -275,8 +275,8 @@ best_scores_list <- list()
      # Multiply weights by adjacency matrix
      weighted_matrix <- bestop$weights * amat
      # Print the resulting matrix
-     cat("* Weighted Matrix in iteration", iter, ":\n")
-     print(weighted_matrix)
+    # cat("* Weighted Matrix in iteration", iter, ":\n")
+    # print(weighted_matrix)
  best_scores_list <- c(best_scores_list, best.score)
            TOTALSCORE <- TOTALSCORE + best.score
     # set the nodes whose cached score deltas are to be updated.
@@ -301,7 +301,7 @@ best_scores_list <- list()
         cat("reversing", bestop$from, "->", bestop$to, ".\n")
       cat("* current network is :\n")
       print(start)
-      cat("* current score:", sum(reference.score), "\n")
+      #cat("* current score:", sum(reference.score), "\n")
       cat(sprintf("* best score up to now: %s (delta: %s)\n",
         format(best.score),
         format(robust.score.difference(sum(reference.score), best.score))))
