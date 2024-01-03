@@ -324,16 +324,19 @@ best_scores_list <- list()
     else iter = iter + 1
 
   }#REPEAT
-          # Perform multiplication outside the repeat loop
-  multiplied_scores <- lapply(1:length(best_scores_list), function(i) {
-    best_scores_list[[i]] * adjacency_matrices_list[[i]]
-      })
+         
 cat("Total Summation of Scores after", iter , "iterations:", TOTALSCORE, "\n")
           print(best.score)
  print(TOTALSCORE)  
 adjusted_scores <- as.numeric(unlist(best_scores_list)) / TOTALSCORE
 cat("Adjusted Scores List (divided by", TOTALSCORE, "):\n")
 print(adjusted_scores)
+
+ # Perform multiplication outside the repeat loop
+  multiplied_scores <- lapply(1:length(adjusted_scores), function(i) {
+    adjusted_scores[[i]] * adjacency_matrices_list[[i]]
+      })
+          
           # Return the list of adjacency matrices along with the final network structure
           cat("List of Adjacency Matrices:\n")
   print(adjacency_matrices_list)
