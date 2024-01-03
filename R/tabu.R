@@ -180,7 +180,7 @@ TOTALSCORE <- 0
 #AZARRRRRRRRRRRRRRR
           cur_score <- bestop$score
             cat("* score in iteration", iter, ":", best.score, "\n")
-           cat("Weight in iteration", iter , ":", best.score/-105603.6078, "\n")
+           cat("Weight in iteration", iter , ":", best.score/TOTALSCORE, "\n")
           TOTALSCORE <- TOTALSCORE + best.score
 
     # the value FALSE is the canary value in bestop$op meaning "no operation
@@ -266,7 +266,14 @@ TOTALSCORE <- 0
     start = arc.operations(start, from = bestop$from, to = bestop$to,
               op = bestop$op, check.cycles = FALSE, check.illegal = FALSE,
               update = TRUE, debug = FALSE)
+#AZARRRRRRRRRRRRRRRRRRRRRRRRRRRR
+     # Multiply weights by adjacency matrix
+     weighted_matrix <- bestop$weights * amat
+     # Print the resulting matrix
+     cat("* Weighted Matrix in iteration", iter, ":\n")
+     print(weighted_matrix)
 
+          
     # set the nodes whose cached score deltas are to be updated.
     if (bestop$op == "reverse")
       updated = which(nodes %in% c(bestop$from, bestop$to)) - 1L
