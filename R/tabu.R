@@ -326,8 +326,6 @@ best_scores_list <- list()
   }#REPEAT
          
 cat("Total Summation of Scores after", iter , "iterations:", TOTALSCORE, "\n")
-          print(best.score)
- print(TOTALSCORE)  
 adjusted_scores <- as.numeric(unlist(best_scores_list)) / TOTALSCORE
 cat("Adjusted Scores List (divided by", TOTALSCORE, "):\n")
 print(adjusted_scores)
@@ -338,11 +336,11 @@ print(adjusted_scores)
       })
           
           # Return the list of adjacency matrices along with the final network structure
-          cat("List of Adjacency Matrices:\n")
-  print(adjacency_matrices_list)
+         # cat("List of Adjacency Matrices:\n")
+ # print(adjacency_matrices_list)
  # Print the list of multiplied scores
-  cat("List of Multiplied Scores:\n")
-  print(multiplied_scores)
+ # cat("List of Multiplied Scores:\n")
+  #print(multiplied_scores)
             # Sum up all matrices element-wise
   final_matrix <- Reduce(`+`, multiplied_scores)
  # Print the final matrix
