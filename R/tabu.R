@@ -67,6 +67,7 @@ TOTALSCORE <- 0
 best_scores_list <- list()
     # Create an empty list to store adjacency matrices
   adjacency_matrices_list <- list()
+    sum_matrix <- matrix(0, nrow = n.nodes, ncol = n.nodes)
   repeat {
 
     current = as.integer((iter - 1) %% tabu)
@@ -134,6 +135,8 @@ best_scores_list <- list()
     amat = arcs2amat(start$arcs, nodes)
       # Append the current adjacency matrix to the list
     adjacency_matrices_list[[iter]] <- amat
+      sum_matrix <- sum_matrix + amat + t(amat)
+
     # compute the number of parents of each node.
     nparents = colSums(amat)
 
@@ -329,7 +332,8 @@ cat("Total Summation of Scores after", iter , "iterations:", TOTALSCORE, "\n")
 adjusted_scores <- as.numeric(unlist(best_scores_list)) / TOTALSCORE
 cat("Adjusted Scores List (divided by", TOTALSCORE, "):\n")
 print(adjusted_scores)
-
+cat("Final Matrix (sum of multiplied scores):\n")
+print(sum_matrix)
  # Perform multiplication outside the repeat loop
   multiplied_scores <- lapply(1:length(adjusted_scores), function(i) {
     adjusted_scores[[i]] * adjacency_matrices_list[[i]]
