@@ -353,8 +353,13 @@ cat("Final Matrix (sum of multiplied scores):\n")
 final_symmetric_matrix = final_matrix + t(final_matrix)
            cat("Final Symmetric Matrix:\n")
           print(final_symmetric_matrix)
-          # Plotting adjusted scores over iterations
-plot(1:iter, adjusted_scores, type = 'l', xlab = 'Iteration', ylab = 'Adjusted Score', main = 'Adjusted Scores Over Iterations')
+         # Plotting adjusted scores over iterations
+if (length(adjusted_scores) == iter) {
+  plot(1:iter, adjusted_scores, type = 'l', xlab = 'Iteration', ylab = 'Adjusted Score', main = 'Adjusted Scores Over Iterations')
+} else {
+  cat("Error: Lengths of '1:iter' and 'adjusted_scores' differ.\n")
+}
+
   # Return the list of adjacency matrices along with the final network structure
   return(list(adjacency_matrices_list = adjacency_matrices_list, 
               best_scores_list = best_scores_list, 
