@@ -67,7 +67,7 @@ TOTALSCORE <- 0
 best_scores_list <- list()
     # Create an empty list to store adjacency matrices
   adjacency_matrices_list <- list()
-  
+  every_1000th_adjusted_score <- list()
   repeat {
 
     current = as.integer((iter - 1) %% tabu)
@@ -274,6 +274,11 @@ best_scores_list <- list()
               op = bestop$op, check.cycles = FALSE, check.illegal = FALSE,
               update = TRUE, debug = FALSE)
 #AZARRRRRRRRRRRRRRRRRRRRRRRRRRRR
+  # Check if the current iteration is a multiple of 100
+  if (iter %% 1000 == 0) {
+    adjusted_scores <- as.numeric(unlist(best_scores_list)) / TOTALSCORE
+    every_100th_adjusted_score[[length(every_100th_adjusted_score) + 1]] <- list(iteration = iter, adjusted_score = adjusted_scores[iter])
+  }
      # Multiply weights by adjacency matrix
      weighted_matrix <- bestop$weights * amat
      # Print the resulting matrix
@@ -326,7 +331,9 @@ best_scores_list <- list()
     else iter = iter + 1
 
   }#REPEAT
-         
+        cat("Every 1000th Adjusted Score and Iteration Number:\n")
+print(every_100th_adjusted_score)
+          
 cat("Total Summation of Scores after", iter , "iterations:", TOTALSCORE, "\n")
 adjusted_scores <- as.numeric(unlist(best_scores_list)) / TOTALSCORE
 cat("Adjusted Scores List (divided by", TOTALSCORE, "):\n")
@@ -353,12 +360,7 @@ cat("Final Matrix (sum of multiplied scores):\n")
 final_symmetric_matrix = final_matrix + t(final_matrix)
            cat("Final Symmetric Matrix:\n")
           print(final_symmetric_matrix)
-         # Plotting adjusted scores over iterations
-if (length(adjusted_scores) == iter) {
-  plot(1:iter, adjusted_scores, type = 'l', xlab = 'Iteration', ylab = 'Adjusted Score', main = 'Adjusted Scores Over Iterations')
-} else {
-  cat("Error: Lengths of '1:iter' and 'adjusted_scores' differ.\n")
-}
+      
 
   # Return the list of adjacency matrices along with the final network structure
   return(list(adjacency_matrices_list = adjacency_matrices_list, 
