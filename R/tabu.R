@@ -67,7 +67,7 @@ TOTALSCORE <- 0
 best_scores_list <- list()
     # Create an empty list to store adjacency matrices
   adjacency_matrices_list <- list()
-  
+  adjusted_scores_all <- list()
   repeat {
 
     current = as.integer((iter - 1) %% tabu)
@@ -274,7 +274,10 @@ best_scores_list <- list()
               op = bestop$op, check.cycles = FALSE, check.illegal = FALSE,
               update = TRUE, debug = FALSE)
 #AZARRRRRRRRRRRRRRRRRRRRRRRRRRRR
- 
+ if (iter %% 1000 == 0) {
+    adjusted_scores <- as.numeric(unlist(best_scores_list)) / TOTALSCORE
+    adjusted_scores_all[[length(adjusted_scores_all) + 1]] <- adjusted_scores
+  }
      # Multiply weights by adjacency matrix
      weighted_matrix <- bestop$weights * amat
      # Print the resulting matrix
@@ -331,7 +334,7 @@ best_scores_list <- list()
 cat("Total Summation of Scores after", iter , "iterations:", TOTALSCORE, "\n")
 adjusted_scores <- as.numeric(unlist(best_scores_list)) / TOTALSCORE
 cat("Adjusted Scores List (divided by", TOTALSCORE, "):\n")
-print(adjusted_scores)
+print(adjusted_scores_all)
 cat("Final Matrix (sum of multiplied scores):\n")
 
           
