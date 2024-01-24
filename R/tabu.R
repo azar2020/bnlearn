@@ -333,7 +333,7 @@ best_scores_list <- list()
         
 cat("Total Summation of Scores after", iter , "iterations:", TOTALSCORE, "\n")
 adjusted_scores <- as.numeric(unlist(best_scores_list))
-cat("Adjusted Scores List "):\n")
+cat("Adjusted Scores List):\n")
 print(adjusted_scores_all)
 cat("Final Matrix (sum of multiplied scores):\n")
 
