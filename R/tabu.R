@@ -274,7 +274,7 @@ best_scores_all <- list()
               op = bestop$op, check.cycles = FALSE, check.illegal = FALSE,
               update = TRUE, debug = FALSE)
 #AZARRRRRRRRRRRRRRRRRRRRRRRRRRRR
- if (iter %% 100 == 0) {
+ if (iter %% 10 == 0) {
     best_scores_all[[length(best_scores_all) + 1]] <- best.score
   }
      # Multiply weights by adjacency matrix
@@ -333,7 +333,7 @@ best_scores_all <- list()
 cat("Total Summation of Scores after", iter , "iterations:", TOTALSCORE, "\n")
 adjusted_scores <- as.numeric(unlist(best_scores_list)) / TOTALSCORE
 # Print best scores
-cat("Best Scores List (at every 1000 iterations):\n")
+cat("Best Scores List (at every 10 iterations):\n")
 print(best_scores_all)
 cat("Final Matrix (sum of multiplied scores):\n")
 
@@ -355,7 +355,7 @@ cat("Final Matrix (sum of multiplied scores):\n")
   cat("Final Matrix (sum of multiplied scores):\n")
   print(final_matrix)
 final_symmetric_matrix = final_matrix + t(final_matrix)
-           cat("Final Symmetric Matrix:\n")
+          cat("Final Symmetric Matrix:\n")
           print(final_symmetric_matrix)
       
 
