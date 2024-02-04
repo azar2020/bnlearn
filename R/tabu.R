@@ -369,7 +369,7 @@ final_symmetric_matrix = final_matrix + t(final_matrix)
  # return(list(adjacency_matrices_list = adjacency_matrices_list, final_network = start))
 # Save best scores list to CSV
 best_scores_df <- data.frame(iteration = seq_along(best_scores_list), score = best_scores_list)
-write.csv(best_scores_df, file = "best_scores.csv", row.names = FALSE)
+write.csv(best_scores_df, file = "C:/Azar_Drive/relationships-between-variables1/01_preprocessing/best_scores.csv", row.names = FALSE)
 cat("Best scores list saved to 'best_scores.csv'\n")
   #return(start)
 
