@@ -138,7 +138,7 @@ likelihood_values <- numeric(max.iter)
     amat = arcs2amat(start$arcs, nodes)
       # Append the current adjacency matrix to the list
     adjacency_matrices_list[[iter]] <- amat
-   
+   likelihood_values[iter] <- loglikelihood(start, x)
     # compute the number of parents of each node.
     nparents = colSums(amat)
 
@@ -190,7 +190,7 @@ likelihood_values <- numeric(max.iter)
 #AZARRRRRRRRRRRRRRR
 
           # Inside the loop, call the loglikelihood function
-    likelihood_values[iter] <- loglikelihood(start, x)
+    
           cur_score <- bestop$score
             cat("* score in iteration", iter, ":", best.score, "\n")
            
