@@ -68,21 +68,7 @@ best_scores_list <- list()
     # Create an empty list to store adjacency matrices
   adjacency_matrices_list <- list()
 best_scores_all <- list()
- # Initialize a vector to store likelihood values for each iteration
-  likelihood_values <- numeric(max.iter)
-
-  # Define the loglikelihood function within tabu.search
-  loglikelihood <- function(fitted, data, by.sample = FALSE, keep = names(fitted),
-                             propagate.missing = FALSE, debug = FALSE) {
-    .Call(call_loglikelihood_function,
-          fitted = fitted,
-          data = data,
-          by.sample = by.sample,
-          keep.nodes = keep,
-          propagate.missing = propagate.missing,
-          debug = debug)
-  } # LOGLIKELIHOOD
-
+ 
     
   repeat {
 
@@ -151,7 +137,7 @@ best_scores_all <- list()
     amat = arcs2amat(start$arcs, nodes)
       # Append the current adjacency matrix to the list
     adjacency_matrices_list[[iter]] <- amat
-   likelihood_values[iter] <- loglikelihood(start, x)
+
     # compute the number of parents of each node.
     nparents = colSums(amat)
 
@@ -202,7 +188,7 @@ best_scores_all <- list()
                    debug = debug)
 #AZARRRRRRRRRRRRRRR
 
-          # Inside the loop, call the loglikelihood function
+      
     
           cur_score <- bestop$score
             cat("* score in iteration", iter, ":", best.score, "\n")
@@ -378,17 +364,14 @@ cat("Final Matrix (sum of multiplied scores):\n")
 final_symmetric_matrix = final_matrix + t(final_matrix)
           cat("Final Symmetric Matrix:\n")
           print(final_symmetric_matrix)
-   # Print likelihood values for each iteration
-  cat("Likelihood Values for Each Iteration:\n")
-  print(likelihood_values)   
-
+   
   # Return the list of adjacency matrices along with the final network structure
   return(list(adjacency_matrices_list = adjacency_matrices_list, 
               best_scores_list = best_scores_list, 
               multiplied_scores = multiplied_scores,
               final_matrix = final_matrix,
-              final_network = start,
-              likelihood_values = likelihood_values))
+              final_network = start
+              ))
 
  # return(list(adjacency_matrices_list = adjacency_matrices_list, final_network = start))
 # Save best scores list to CSV
