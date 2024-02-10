@@ -68,6 +68,9 @@ best_scores_list <- list()
     # Create an empty list to store adjacency matrices
   adjacency_matrices_list <- list()
 best_scores_all <- list()
+likelihood_values <- numeric(max.iter)
+
+    
   repeat {
 
     current = as.integer((iter - 1) %% tabu)
@@ -185,6 +188,9 @@ best_scores_all <- list()
                    maxp = maxp,
                    debug = debug)
 #AZARRRRRRRRRRRRRRR
+
+          # Inside the loop, call the loglikelihood function
+    likelihood_values[iter] <- loglikelihood(start, x)
           cur_score <- bestop$score
             cat("* score in iteration", iter, ":", best.score, "\n")
            
@@ -329,7 +335,9 @@ best_scores_all <- list()
     else iter = iter + 1
 
   }#REPEAT
-        
+  cat("Total Summation of Scores after", iter, "iterations:", TOTALSCORE, "\n")
+  adjusted_scores <- as.numeric(unlist(best_scores_list)) / TOTALSCORE
+      
 cat("Total Summation of Scores after", iter , "iterations:", TOTALSCORE, "\n")
 adjusted_scores <- as.numeric(unlist(best_scores_list)) / TOTALSCORE
 # Print best scores
@@ -357,14 +365,17 @@ cat("Final Matrix (sum of multiplied scores):\n")
 final_symmetric_matrix = final_matrix + t(final_matrix)
           cat("Final Symmetric Matrix:\n")
           print(final_symmetric_matrix)
-      
+   # Print likelihood values for each iteration
+  cat("Likelihood Values for Each Iteration:\n")
+  print(likelihood_values)   
 
   # Return the list of adjacency matrices along with the final network structure
   return(list(adjacency_matrices_list = adjacency_matrices_list, 
               best_scores_list = best_scores_list, 
               multiplied_scores = multiplied_scores,
               final_matrix = final_matrix,
-              final_network = start))
+              final_network = start,
+              likelihood_values = likelihood_values))
 
  # return(list(adjacency_matrices_list = adjacency_matrices_list, final_network = start))
 # Save best scores list to CSV
