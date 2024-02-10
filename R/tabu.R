@@ -342,8 +342,6 @@ adjusted_scores <- as.numeric(unlist(best_scores_list)) / TOTALSCORE
 # Print best scores
 cat("Best Scores List (at every 10 iterations):\n")
 print(best_scores_all)
-cat("Final Matrix (sum of multiplied scores):\n")
-
           
  # Perform multiplication outside the repeat loop
   multiplied_scores <- lapply(1:length(adjusted_scores), function(i) {
@@ -364,13 +362,15 @@ cat("Final Matrix (sum of multiplied scores):\n")
 final_symmetric_matrix = final_matrix + t(final_matrix)
           cat("Final Symmetric Matrix:\n")
           print(final_symmetric_matrix)
-   
+  # Plot the final graph
+final_graph <- graphviz.plot(start) 
   # Return the list of adjacency matrices along with the final network structure
   return(list(adjacency_matrices_list = adjacency_matrices_list, 
               best_scores_list = best_scores_list, 
               multiplied_scores = multiplied_scores,
               final_matrix = final_matrix,
-              final_network = start
+              final_network = start,
+              final_graph = final_graph
               ))
 
  # return(list(adjacency_matrices_list = adjacency_matrices_list, final_network = start))
