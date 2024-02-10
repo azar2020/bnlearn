@@ -68,7 +68,20 @@ best_scores_list <- list()
     # Create an empty list to store adjacency matrices
   adjacency_matrices_list <- list()
 best_scores_all <- list()
-likelihood_values <- numeric(max.iter)
+ # Initialize a vector to store likelihood values for each iteration
+  likelihood_values <- numeric(max.iter)
+
+  # Define the loglikelihood function within tabu.search
+  loglikelihood <- function(fitted, data, by.sample = FALSE, keep = names(fitted),
+                             propagate.missing = FALSE, debug = FALSE) {
+    .Call(call_loglikelihood_function,
+          fitted = fitted,
+          data = data,
+          by.sample = by.sample,
+          keep.nodes = keep,
+          propagate.missing = propagate.missing,
+          debug = debug)
+  } # LOGLIKELIHOOD
 
     
   repeat {
