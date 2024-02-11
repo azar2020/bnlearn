@@ -165,7 +165,7 @@ best_scores_all <- list()
           blmat = blmat,
           debug = debug)
           # Calculate likelihood and store it
-    likelihood_scores[iter] <- logLik(start, newdata = x)
+   
 
     # select which arcs should be tested for inclusion in the graph (hybrid
     # learning algorithms should hook the restrict phase here).
@@ -366,6 +366,7 @@ final_symmetric_matrix = final_matrix + t(final_matrix)
           print(final_symmetric_matrix)
   # Plot the final graph
 final_graph <- graphviz.plot(start) 
+ likelihood_scores <- logLik(final_graph, newdata = x)
   # Return the list of adjacency matrices along with the final network structure
   return(list(adjacency_matrices_list = adjacency_matrices_list, 
               best_scores_list = best_scores_list, 
