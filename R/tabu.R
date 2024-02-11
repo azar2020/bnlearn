@@ -164,6 +164,8 @@ best_scores_all <- list()
           cache = cache,
           blmat = blmat,
           debug = debug)
+          # Calculate likelihood and store it
+    likelihood_scores[iter] <- logLik(start, newdata = x)
 
     # select which arcs should be tested for inclusion in the graph (hybrid
     # learning algorithms should hook the restrict phase here).
@@ -370,7 +372,8 @@ final_graph <- graphviz.plot(start)
               multiplied_scores = multiplied_scores,
               final_matrix = final_matrix,
               final_network = start,
-              final_graph = final_graph
+              final_graph = final_graphو
+              likelihood_scores = likelihood_scores
               ))
 
  # return(list(adjacency_matrices_list = adjacency_matrices_list, final_network = start))
