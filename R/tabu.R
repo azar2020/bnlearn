@@ -372,7 +372,7 @@ final_graph <- graphviz.plot(start)
               multiplied_scores = multiplied_scores,
               final_matrix = final_matrix,
               final_network = start,
-              final_graph = final_graphو
+              final_graph = final_graph,
               likelihood_scores = likelihood_scores
               ))
 
