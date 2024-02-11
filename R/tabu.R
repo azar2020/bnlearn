@@ -164,7 +164,7 @@ best_scores_all <- list()
           cache = cache,
           blmat = blmat,
           debug = debug)
-          # Calculate likelihood and store it
+          
    
 
     # select which arcs should be tested for inclusion in the graph (hybrid
@@ -366,32 +366,6 @@ final_symmetric_matrix = final_matrix + t(final_matrix)
           print(final_symmetric_matrix)
   # Plot the final graph
  final_graph <- graphviz.plot(start) 
-bic_score <- best.score  # Assuming 'best.score' is the BIC score
-          # Function to compute the number of parameters for a Bayesian network
-compute_parameters <- function(final_graph) {
-  num_parameters <- 0
-  
-  for (node in nodes(final_graph)) {
-    parents <- parents(final_graph, node)
-    num_categories <- YOUR_FUNCTION_TO_GET_NUMBER_OF_CATEGORIES(node)  # You need to implement this function
-    
-    # If the node has parents, count conditional probabilities
-    if (length(parents) > 0) {
-      num_parameters <- num_parameters + (num_categories - 1) * prod(sapply(parents, function(p) YOUR_FUNCTION_TO_GET_NUMBER_OF_CATEGORIES(p)))
-    } else {
-      # If the node has no parents, count unconditional probabilities
-      num_parameters <- num_parameters + num_categories - 1
-    }
-  }
-  
-  return(num_parameters)
-}
-
- # Compute the number of parameters
-num_parameters <- compute_parameters(final_graph)
-
-# Calculate the likelihood score
-log_likelihood <- -bic_score/2 + num_parameters/2 * log(length(x))
 
 # Return the list of adjacency matrices along with the final network structure
 return(list(adjacency_matrices_list = adjacency_matrices_list, 
@@ -399,9 +373,8 @@ return(list(adjacency_matrices_list = adjacency_matrices_list,
             multiplied_scores = multiplied_scores,
             final_matrix = final_matrix,
             final_network = start,
-            final_graph = final_graph,
-            likelihood_scores = log_likelihood,
-            num_parameters = num_parameters))
+            final_graph = final_graph
+           ))
 
 
  # return(list(adjacency_matrices_list = adjacency_matrices_list, final_network = start))
