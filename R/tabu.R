@@ -65,6 +65,8 @@ tabu.search = function(x, start, whitelist, blacklist, score, extra.args,
   }#THEN
 TOTALSCORE <- 0
 best_scores_list <- list()
+    best_likelihood_scores_list <- list()
+  best_discrete_scores_list <- list()
     # Create an empty list to store adjacency matrices
   adjacency_matrices_list <- list()
 best_scores_all <- list()
@@ -194,6 +196,16 @@ best_scores_all <- list()
     
           cur_score <- bestop$score
             cat("* score in iteration", iter, ":", best.score, "\n")
+
+# Calculate likelihood score
+    fitted_model <- bn.fit(start, data = x)
+    likelihood_score <- logLik(fitted_model)
+    cat("* likelihood score in iteration", iter, ":", likelihood_score, "\n")
+
+    # Calculate discrete score (you may need to replace 'score' with the actual discrete scoring function)
+    discrete_score <- per.node.score(network = start, score = score, targets = nodes, extra.args = extra.args, data = x)
+    cat("* discrete score in iteration", iter, ":", sum(discrete_score), "\n")
+          
            
             #cat("Weight in iteration", iter , ":", best.score/TOTALSCORE, "\n")
 
@@ -289,7 +301,8 @@ best_scores_all <- list()
      # Print the resulting matrix
     # cat("* Weighted Matrix in iteration", iter, ":\n")
     # print(weighted_matrix)
- best_scores_list <- c(best_scores_list, best.score)
+ best_likelihood_scores_list <- c(best_likelihood_scores_list, likelihood_score)
+    best_discrete_scores_list <- c(best_discrete_scores_list, sum(discrete_score))
            TOTALSCORE <- TOTALSCORE + best.score
     # set the nodes whose cached score deltas are to be updated.
     if (bestop$op == "reverse")
@@ -340,6 +353,13 @@ best_scores_all <- list()
   adjusted_scores <- as.numeric(unlist(best_scores_list)) / TOTALSCORE
       
 cat("Total Summation of Scores after", iter , "iterations:", TOTALSCORE, "\n")
+cat("Total Summation of Likelihood Scores after", iter, "iterations:", TOTALSCORE, "\n")
+  adjusted_likelihood_scores <- as.numeric(unlist(best_likelihood_scores_list)) / TOTALSCORE
+
+  cat("Total Summation of Discrete Scores after", iter, "iterations:", TOTALSCORE, "\n")
+  adjusted_discrete_scores <- as.numeric(unlist(best_discrete_scores_list)) / TOTALSCORE
+
+          
 adjusted_scores <- as.numeric(unlist(best_scores_list)) / TOTALSCORE
 # Print best scores
 cat("Best Scores List (at every 10 iterations):\n")
