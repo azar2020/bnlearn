@@ -199,10 +199,7 @@ best_scores_all <- list()
 
 
 
-    # Calculate discrete score (you may need to replace 'score' with the actual discrete scoring function)
-    discrete_score <- per.node.score(network = start, score = score, targets = nodes, extra.args = extra.args, data = x)
-    cat("* discrete score in iteration", iter, ":", sum(discrete_score), "\n")
-          
+    
            
             #cat("Weight in iteration", iter , ":", best.score/TOTALSCORE, "\n")
 
@@ -296,8 +293,8 @@ best_scores_all <- list()
      # Multiply weights by adjacency matrix
      weighted_matrix <- bestop$weights * amat
      # Print the resulting matrix
-    cat("* Weighted Matrix in iteration", iter, ":\n")
-    print(weighted_matrix)
+    #cat("* Weighted Matrix in iteration", iter, ":\n")
+    #print(weighted_matrix)
     best_scores_list <- c(best_scores_list, best.score)
     
            TOTALSCORE <- TOTALSCORE + best.score
