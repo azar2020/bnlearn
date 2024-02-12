@@ -65,7 +65,7 @@ tabu.search = function(x, start, whitelist, blacklist, score, extra.args,
   }#THEN
 TOTALSCORE <- 0
 best_scores_list <- list()
-    best_likelihood_scores_list <- list()
+   
   
     # Create an empty list to store adjacency matrices
   adjacency_matrices_list <- list()
@@ -197,10 +197,7 @@ best_scores_all <- list()
           cur_score <- bestop$score
             cat("* score in iteration", iter, ":", best.score, "\n")
 
-# Calculate likelihood score
-    fitted_model <- bn.fit(start, data = x)
-    likelihood_score <- logLik(fitted_model)
-    cat("* likelihood score in iteration", iter, ":", likelihood_score, "\n")
+
 
     # Calculate discrete score (you may need to replace 'score' with the actual discrete scoring function)
     discrete_score <- per.node.score(network = start, score = score, targets = nodes, extra.args = extra.args, data = x)
@@ -299,9 +296,9 @@ best_scores_all <- list()
      # Multiply weights by adjacency matrix
      weighted_matrix <- bestop$weights * amat
      # Print the resulting matrix
-    # cat("* Weighted Matrix in iteration", iter, ":\n")
-    # print(weighted_matrix)
- best_likelihood_scores_list <- c(best_likelihood_scores_list, likelihood_score)
+    cat("* Weighted Matrix in iteration", iter, ":\n")
+    print(weighted_matrix)
+
     
            TOTALSCORE <- TOTALSCORE + best.score
     # set the nodes whose cached score deltas are to be updated.
