@@ -298,7 +298,7 @@ best_scores_all <- list()
      # Print the resulting matrix
     cat("* Weighted Matrix in iteration", iter, ":\n")
     print(weighted_matrix)
-
+    best_scores_list <- c(best_scores_list, best.score)
     
            TOTALSCORE <- TOTALSCORE + best.score
     # set the nodes whose cached score deltas are to be updated.
@@ -348,14 +348,7 @@ best_scores_all <- list()
   }#REPEAT
   cat("Total Summation of Scores after", iter, "iterations:", TOTALSCORE, "\n")
   adjusted_scores <- as.numeric(unlist(best_scores_list)) / TOTALSCORE
-      
-
-
-  
-  
-
-          
-
+   cat("Total Summation of Scores after", iter , "iterations:", TOTALSCORE, "\n")   
 # Print best scores
 cat("Best Scores List (at every 10 iterations):\n")
 print(best_scores_all)
@@ -367,10 +360,10 @@ print(best_scores_all)
           
           # Return the list of adjacency matrices along with the final network structure
          # cat("List of Adjacency Matrices:\n")
- # print(adjacency_matrices_list)
- # Print the list of multiplied scores
- # cat("List of Multiplied Scores:\n")
-  #print(multiplied_scores)
+  print(adjacency_matrices_list)
+  #Print the list of multiplied scores
+  cat("List of Multiplied Scores:\n")
+  print(multiplied_scores)
             # Sum up all matrices element-wise
   final_matrix <- Reduce(`+`, multiplied_scores)
  # Print the final matrix
