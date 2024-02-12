@@ -355,7 +355,7 @@ best_scores_all <- list()
   
 
           
-adjusted_scores <- as.numeric(unlist(best_scores_list)) / TOTALSCORE
+
 # Print best scores
 cat("Best Scores List (at every 10 iterations):\n")
 print(best_scores_all)
