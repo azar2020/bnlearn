@@ -195,7 +195,7 @@ best_scores_all <- list()
       
     
           cur_score <- bestop$score
-            cat("* score in iteration", iter, ":", best.score, "\n")
+            cat("* sum(reference.score) in iteration", iter, ":", sum(reference.score), "\n")
 
 
 
@@ -288,16 +288,16 @@ best_scores_all <- list()
               update = TRUE, debug = FALSE)
 #AZARRRRRRRRRRRRRRRRRRRRRRRRRRRR
  if (iter %% 10 == 0) {
-    best_scores_all[[length(best_scores_all) + 1]] <- best.score
+    best_scores_all[[length(best_scores_all) + 1]] <- sum(reference.score)
   }
      # Multiply weights by adjacency matrix
      weighted_matrix <- bestop$weights * amat
      # Print the resulting matrix
     #cat("* Weighted Matrix in iteration", iter, ":\n")
     #print(weighted_matrix)
-    best_scores_list <- c(best_scores_list, best.score)
+    best_scores_list <- c(best_scores_list, sum(reference.score))
     
-           TOTALSCORE <- TOTALSCORE + best.score
+           TOTALSCORE <- TOTALSCORE + sum(reference.score)
     # set the nodes whose cached score deltas are to be updated.
     if (bestop$op == "reverse")
       updated = which(nodes %in% c(bestop$from, bestop$to)) - 1L
