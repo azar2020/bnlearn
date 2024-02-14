@@ -287,7 +287,7 @@ best_scores_all <- list()
               op = bestop$op, check.cycles = FALSE, check.illegal = FALSE,
               update = TRUE, debug = FALSE)
 #AZARRRRRRRRRRRRRRRRRRRRRRRRRRRR
- if (iter %% 10 == 0) {
+ if (iter %% 5 == 0) {
     best_scores_all[[length(best_scores_all) + 1]] <- sum(reference.score)
   }
      # Multiply weights by adjacency matrix
