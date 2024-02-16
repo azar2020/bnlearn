@@ -20,7 +20,7 @@ SEXP nodes = R_NilValue, node_data, parents, temp;
   PROTECT(nodes = getAttrib(node_data, R_NamesSymbol));
   /* cache the number of levels of each variables (zero = continuous). */
   nlevels = Calloc1D(nnodes, sizeof(int));
-  double all_params = 0;  // Variable to accumulate the total number of parameters
+ 
   for (i = 0; i < nnodes; i++) {
 
     temp = VECTOR_ELT(data, i);
