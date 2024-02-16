@@ -3,7 +3,6 @@
 #include "../minimal/common.h"
 #include "../math/linear.algebra.h"
 #include "../fitted/fitted.h"
-
 /* get the number of parameters of the whole network (mixed case, also handles
  * discrete and Gaussian networks). */
 SEXP nparams_cgnet(SEXP graph, SEXP data, SEXP debug) {
