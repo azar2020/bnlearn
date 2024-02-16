@@ -222,12 +222,12 @@ best_scores_list <- list()
 #AZARRRRRRRRRRRRRRRRRRRRRRRRRRRR
        
 
- if (iter %% 2 == 0) {
+
     best_scores_all[[length(best_scores_all) + 1]] <- sum(reference.score)
      # Calculate and store the number of parameters for the current graph
       params <- nparams.backend(x = start, data = x, debug = debug)
       best_params_list[[length(best_params_list) + 1]] <- params      
-  }
+  
      # Multiply weights by adjacency matrix
      weighted_matrix <- bestop$weights * amat
      # Print the resulting matrix
