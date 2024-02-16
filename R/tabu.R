@@ -191,9 +191,7 @@ best_scores_list <- list()
                    maxp = maxp,
                    debug = debug)
 #AZARRRRRRRRRRRRRRR
-likelihood_score <- loglikelihood(fitted = current, data = x)
-cat("* Likelihood Score after iteration", iter, ":", likelihood_score, "\n")
-      
+
     
           cur_score <- bestop$score
             cat("* sum(reference.score) in iteration", iter, ":", sum(reference.score), "\n")
@@ -322,6 +320,10 @@ cat("* Likelihood Score after iteration", iter, ":", likelihood_score, "\n")
         cat("reversing", bestop$from, "->", bestop$to, ".\n")
       cat("* current network is :\n")
       print(start)
+
+        likelihood_score <- loglikelihood(fitted = start, data = x)
+cat("* Likelihood Score after iteration", iter, ":", likelihood_score, "\n")
+      
       #cat("* current score:", sum(reference.score), "\n")
       cat(sprintf("* best score up to now: %s (delta: %s)\n",
         format(best.score),
