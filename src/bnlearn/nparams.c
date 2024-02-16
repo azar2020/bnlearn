@@ -69,7 +69,7 @@ SEXP nodes = R_NilValue, node_data, parents, temp;
 }/*NPARAMS_CGNET*/
 
 /* compute the number of parameters of a fitted model. */
-SEXP nparams_fitted(SEXP bn, SEXP effective, SEXP debug,, SEXP results) {
+SEXP nparams_fitted(SEXP bn, SEXP effective, SEXP debug,SEXP results) {
 
 int i = 0, j = 0, k = 0, nnodes = length(bn), *pd = NULL;
 bool debugging = isTRUE(debug), eff = isTRUE(effective);
