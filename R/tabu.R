@@ -288,7 +288,7 @@ best_scores_list <- list()
               update = TRUE, debug = FALSE)
 #AZARRRRRRRRRRRRRRRRRRRRRRRRRRRR
           # compute the log-likelihood of the updated network structure
-likelihood_score <- loglikelihood(fitted = start, data = x)
+likelihood_score <- loglikelihood(fitted = start$arcs, data = x)
 cat("* Likelihood Score after iteration", iter, ":", likelihood_score, "\n")
  if (iter %% 2 == 0) {
     best_scores_all[[length(best_scores_all) + 1]] <- sum(reference.score)
