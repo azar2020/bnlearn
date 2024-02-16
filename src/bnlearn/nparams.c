@@ -27,7 +27,8 @@ SEXP nodes = R_NilValue, node_data, parents, temp;
       nlevels[i] = NLEVELS(temp);
 
   }/*FOR*/
-
+ SEXP sum_params = PROTECT(allocVector(REALSXP, 1));
+  REAL(sum_params)[0] = 0.0;  // Initialize the sum to zero.
   for (i = 0; i < nnodes; i++) {
 
     /* extract the parents of the node and match them. */
@@ -52,14 +53,15 @@ SEXP nodes = R_NilValue, node_data, parents, temp;
 
     /* update the return value. */
     all_params += node_params;
-
+   /* Accumulate node_params to the sum_params variable. */
+    REAL(sum_params)[0] += node_params;
     UNPROTECT(1);
 
   }/*FOR*/
 
   Free1D(nlevels);
-  UNPROTECT(1);
-
+  UNPROTECT(2);
+   return sum_params;
   return ScalarReal(all_params);
 
 }/*NPARAMS_CGNET*/
