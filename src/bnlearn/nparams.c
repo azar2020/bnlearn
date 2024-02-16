@@ -3,6 +3,7 @@
 #include "../minimal/common.h"
 #include "../math/linear.algebra.h"
 #include "../fitted/fitted.h"
+
 /* get the number of parameters of the whole network (mixed case, also handles
  * discrete and Gaussian networks). */
 SEXP nparams_cgnet(SEXP graph, SEXP data, SEXP debug) {
@@ -19,7 +20,6 @@ SEXP nodes = R_NilValue, node_data, parents, temp;
   PROTECT(nodes = getAttrib(node_data, R_NamesSymbol));
   /* cache the number of levels of each variables (zero = continuous). */
   nlevels = Calloc1D(nnodes, sizeof(int));
- 
   for (i = 0; i < nnodes; i++) {
 
     temp = VECTOR_ELT(data, i);
@@ -54,10 +54,16 @@ SEXP nodes = R_NilValue, node_data, parents, temp;
 
     /* update the return value. */
     all_params += node_params;
+
     UNPROTECT(1);
+
   }/*FOR*/
+
   Free1D(nlevels);
   UNPROTECT(1);
+
+  return ScalarReal(all_params);
+
 }/*NPARAMS_CGNET*/
 
 /* compute the number of parameters of a fitted model. */
@@ -167,4 +173,3 @@ fitted_node_e node_type = ENOFIT;
   return ScalarReal(all_params);
 
 }/*NPARAMS_FITTED*/
-
