@@ -71,7 +71,7 @@ best_scores_list <- list()
     adjacency_matrices_list <- list()
     best_scores_all <- list()
     best_params_list <- list()  # New list to store the number of parameters for each iteration
-    
+    total_params <- 0
   repeat {
 
     current = as.integer((iter - 1) %% tabu)
@@ -293,6 +293,7 @@ best_scores_list <- list()
        # Calculate and store the number of parameters for the current graph
       params <- nparams.backend(x = start, data = x, debug = debug)
       best_params_list[[length(best_params_list) + 1]] <- params
+      total_params <- total_params + params
   }
      # Multiply weights by adjacency matrix
      weighted_matrix <- bestop$weights * amat
@@ -385,10 +386,11 @@ return(list(adjacency_matrices_list = adjacency_matrices_list,
             multiplied_scores = multiplied_scores,
             final_matrix = final_matrix,
             final_network = start,
-            final_graph = final_graph
+            final_graph = final_graph,
+             total_params = total_params
            ))
 
-
+ cat("Total Number of Parameters after", iter, "iterations:", total_params, "\n")
  # return(list(adjacency_matrices_list = adjacency_matrices_list, final_network = start))
 # Save best scores list to CSV
 best_scores_df <- data.frame(iteration = seq_along(best_scores_list), score = best_scores_list)
