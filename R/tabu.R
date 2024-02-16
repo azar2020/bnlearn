@@ -56,12 +56,9 @@ tabu.search = function(x, start, whitelist, blacklist, score, extra.args,
   }#THEN
 TOTALSCORE <- 0
 best_scores_list <- list()
-   
-  
-    # Create an empty list to store adjacency matrices
+       # Create an empty list to store adjacency matrices
   adjacency_matrices_list <- list()
-    best_scores_all <- list()
- 
+   best_params_list <- list()  # New list to store the number of parameters for each iteration
     
   repeat {
     current = as.integer((iter - 1) %% tabu)
