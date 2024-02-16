@@ -54,17 +54,10 @@ SEXP nodes = R_NilValue, node_data, parents, temp;
 
     /* update the return value. */
     all_params += node_params;
-
     UNPROTECT(1);
-
   }/*FOR*/
-
- 
   Free1D(nlevels);
   UNPROTECT(1);
-
-
-
 }/*NPARAMS_CGNET*/
 
 /* compute the number of parameters of a fitted model. */
