@@ -6,7 +6,7 @@
 
 /* get the number of parameters of the whole network (mixed case, also handles
  * discrete and Gaussian networks). */
-SEXP nparams_cgnet(SEXP graph, SEXP data, SEXP debug, SEXP results) {
+SEXP nparams_cgnet(SEXP graph, SEXP data, SEXP debug) {
 
 int i = 0, j = 0, nnodes = 0;
 int *nlevels = NULL, *index = NULL, ngp = 0;
@@ -59,17 +59,17 @@ SEXP nodes = R_NilValue, node_data, parents, temp;
     UNPROTECT(1);
 
   }/*FOR*/
-// Add the total number of parameters to the results vector
-  REAL(results)[0] = all_params;
+
+ 
   Free1D(nlevels);
   UNPROTECT(1);
 
-  return ScalarReal(all_params);
+
 
 }/*NPARAMS_CGNET*/
 
 /* compute the number of parameters of a fitted model. */
-SEXP nparams_fitted(SEXP bn, SEXP effective, SEXP debug,SEXP results) {
+SEXP nparams_fitted(SEXP bn, SEXP effective, SEXP debug) {
 
 int i = 0, j = 0, k = 0, nnodes = length(bn), *pd = NULL;
 bool debugging = isTRUE(debug), eff = isTRUE(effective);
@@ -168,7 +168,7 @@ fitted_node_e node_type = ENOFIT;
     all_params += node_params;
 
   }/*FOR*/
-REAL(results)[0] = all_params;
+
   if (debugging)
     UNPROTECT(1);
 
