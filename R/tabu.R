@@ -191,7 +191,8 @@ best_scores_list <- list()
                    maxp = maxp,
                    debug = debug)
 #AZARRRRRRRRRRRRRRR
-
+likelihood_score <- loglikelihood(fitted = current, data = x)
+cat("* Likelihood Score after iteration", iter, ":", likelihood_score, "\n")
       
     
           cur_score <- bestop$score
