@@ -48,8 +48,6 @@ SEXP nodes = R_NilValue, node_data, parents, temp;
      * and standard error (if continuous) or the number of levels - 1 (if
      * discrete) times the configurations of the discrete parents. */
     node_params = nconfig * (nlevels[i] == 0 ? ngp + 2 : nlevels[i] - 1);
-
-    if (debugging)
       Rprintf("* node %s has %.0lf parameter(s).\n", NODE(i), node_params);
 
     /* update the return value. */
