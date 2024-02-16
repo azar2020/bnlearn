@@ -301,8 +301,7 @@ best_scores_list <- list()
     #cat("* Weighted Matrix in iteration", iter, ":\n")
     #print(weighted_matrix)
     best_scores_list <- c(best_scores_list, sum(reference.score))
-    
-           TOTALSCORE <- TOTALSCORE + sum(reference.score)
+               TOTALSCORE <- TOTALSCORE + sum(reference.score)
     # set the nodes whose cached score deltas are to be updated.
     if (bestop$op == "reverse")
       updated = which(nodes %in% c(bestop$from, bestop$to)) - 1L
