@@ -58,6 +58,7 @@ TOTALSCORE <- 0
 best_scores_list <- list()
        # Create an empty list to store adjacency matrices
   adjacency_matrices_list <- list()
+     best_scores_all <- list()
    best_params_list <- list()  # New list to store the number of parameters for each iteration
     
   repeat {
