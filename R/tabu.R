@@ -286,7 +286,9 @@ best_scores_list <- list()
               op = bestop$op, check.cycles = FALSE, check.illegal = FALSE,
               update = TRUE, debug = FALSE)
 #AZARRRRRRRRRRRRRRRRRRRRRRRRRRRR
-        
+        # Assuming x is an appropriate SEXP object
+loglik <- .Call("your_C_function_name", x, nparams = double(1))
+cat("Log-Likelihood:", loglik, "\n")
  if (iter %% 2 == 0) {
     best_scores_all[[length(best_scores_all) + 1]] <- sum(reference.score)
   }
@@ -321,9 +323,7 @@ best_scores_list <- list()
       cat("* current network is :\n")
       print(start)
 
-        likelihood_score <- loglikelihood(fitted = start, data = x)
-cat("* Likelihood Score after iteration", iter, ":", likelihood_score, "\n")
-      
+       
       #cat("* current score:", sum(reference.score), "\n")
       cat(sprintf("* best score up to now: %s (delta: %s)\n",
         format(best.score),
