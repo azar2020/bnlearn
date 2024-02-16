@@ -58,7 +58,7 @@ SEXP nodes = R_NilValue, node_data, parents, temp;
     UNPROTECT(1);
 
   }/*FOR*/
-
+Rprintf("Total sum of parameters: %.0lf\n", REAL(sum_params)[0]); // Print the total sum of parameters.
   Free1D(nlevels);
   UNPROTECT(2);
    return sum_params;
