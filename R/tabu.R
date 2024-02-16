@@ -226,6 +226,9 @@ best_scores_list <- list()
 
  if (iter %% 2 == 0) {
     best_scores_all[[length(best_scores_all) + 1]] <- sum(reference.score)
+      # Calculate and store the number of parameters for the current graph
+      params <- nparams.backend(x = start, data = x, debug = debug)
+      best_params_list[[length(best_params_list) + 1]] <- params
   }
      # Multiply weights by adjacency matrix
      weighted_matrix <- bestop$weights * amat
@@ -302,6 +305,7 @@ final_symmetric_matrix = final_matrix + t(final_matrix)
 # Return the list of adjacency matrices along with the final network structure
 return(list(adjacency_matrices_list = adjacency_matrices_list, 
             best_scores_list = best_scores_list, 
+             best_params_list = best_params_list,  # Include the list of parameters
             multiplied_scores = multiplied_scores,
             final_matrix = final_matrix,
             final_network = start,
