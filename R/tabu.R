@@ -220,7 +220,13 @@ best_scores_list <- list()
               op = bestop$op, check.cycles = FALSE, check.illegal = FALSE,
               update = TRUE, debug = FALSE)
 #AZARRRRRRRRRRRRRRRRRRRRRRRRRRRR
-       
+  # Calculate log-likelihood using BIC score, number of parameters, and n
+BIC_score = sum(reference.score)
+num_parameters = best_params_list[[length(best_params_list)]]
+log_likelihood = BIC_score + (num_parameters / 2) * log(n)
+
+# Print or store log-likelihood for each iteration
+cat(sprintf("Log-Likelihood in iteration %s: %s\n", iter, log_likelihood))    
 
 
     best_scores_all[[length(best_scores_all) + 1]] <- sum(reference.score)
