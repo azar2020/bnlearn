@@ -159,7 +159,7 @@ best_scores_list <- list()
             cat("* sum(reference.score) in iteration", iter, ":", sum(reference.score), "\n")
     
            
-            #cat("Weight in iteration", iter , ":", best.score/TOTALSCORE, "\n")
+            #cat("Weight in iteration", iter , ":", log_likelihood/TOTALSCORE, "\n")
     # the value FALSE is the canary value in bestop$op meaning "no operation
     # improved the network score"; reconsider prevously discarded solutions
     # and find the one that causes the minimum decrease in the network score.
@@ -231,6 +231,7 @@ BIC_score = sum(reference.score)
     num_parameters = best_params_list[[length(best_params_list)]]
   }
 log_likelihood = BIC_score + (num_parameters / 2) * log(n)
+ TOTALSCORE <- TOTALSCORE + log_likelihood
 
 # Print or store log-likelihood for each iteration
 cat(sprintf("Log-Likelihood in iteration %s: %s\n", iter, log_likelihood))    
@@ -246,9 +247,8 @@ cat(sprintf("Log-Likelihood in iteration %s: %s\n", iter, log_likelihood))
      # Print the resulting matrix
     #cat("* Weighted Matrix in iteration", iter, ":\n")
     #print(weighted_matrix)
-    best_scores_list <- c(best_scores_list, sum(reference.score))
+    best_scores_list <- c(best_scores_list, log_likelihood )
     
-           TOTALSCORE <- TOTALSCORE + sum(reference.score)
     # set the nodes whose cached score deltas are to be updated.
     if (bestop$op == "reverse")
       updated = which(nodes %in% c(bestop$from, bestop$to)) - 1L
@@ -285,7 +285,7 @@ cat(sprintf("Log-Likelihood in iteration %s: %s\n", iter, log_likelihood))
     }#THEN
     else iter = iter + 1
   }#REPEAT
-  cat("Total Summation of Scores after", iter, "iterations:", TOTALSCORE, "\n")
+  cat("Total Summation of likelihood Scores after", iter, "iterations:", TOTALSCORE, "\n")
   adjusted_scores <- as.numeric(unlist(best_scores_list)) / TOTALSCORE
    cat("Total Summation of Scores after", iter , "iterations:", TOTALSCORE, "\n")   
 # Print best scores
