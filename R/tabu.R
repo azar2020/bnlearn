@@ -222,7 +222,14 @@ best_scores_list <- list()
 #AZARRRRRRRRRRRRRRRRRRRRRRRRRRRR
   # Calculate log-likelihood using BIC score, number of parameters, and n
 BIC_score = sum(reference.score)
-num_parameters = best_params_list[[length(best_params_list)]]
+# Check if it's the first iteration (iteration count is zero)
+  if (iter == 1) {
+    # Handle the zero iteration case (initialize num_parameters to 0)
+    num_parameters = 0
+  } else {
+    # For subsequent iterations, get the number of parameters from the list
+    num_parameters = best_params_list[[length(best_params_list)]]
+  }
 log_likelihood = BIC_score + (num_parameters / 2) * log(n)
 
 # Print or store log-likelihood for each iteration
