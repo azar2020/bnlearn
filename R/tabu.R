@@ -230,7 +230,7 @@ BIC_score = sum(reference.score)
     # For subsequent iterations, get the number of parameters from the list
     num_parameters = best_params_list[[length(best_params_list)]]
   }
-log_likelihood = BIC_score + (num_parameters / 2) * log(dim(n))
+log_likelihood = BIC_score + (num_parameters / 2) * log(dim(data))
  TOTALSCORE <- TOTALSCORE + log_likelihood
 
 # Print or store log-likelihood for each iteration
