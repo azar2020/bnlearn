@@ -54,13 +54,13 @@ tabu.search = function(x, start, whitelist, blacklist, score, extra.args,
     start$learning$args = extra.args
     start$learning$optimized = optimized
   }#THEN
-total_score <- 0
-best_scores_list <- list()
-    # Create an empty list to store adjacency matrices
-  adjacency_matrices_list <- list()
-     best_scores_all <- list()
-    best_params_list <- list()  # New list to store the number of parameters for each iteration
-  #AZARRRRRRRRRRRRRRR
+total_score <- 0 #AZAR
+best_scores_list <- list() #AZAR
+    # Create an empty list to store adjacency matrices #AZAR
+  adjacency_matrices_list <- list() #AZAR
+     best_scores_all <- list()  #AZAR
+    best_params_list <- list()  # New list to store the number of parameters for each iteration #AZAR
+  
 repeat {
   current = as.integer((iter - 1) %% tabu)
   
@@ -96,10 +96,10 @@ repeat {
   if (debug)
     cat("* iteration", iter, "using element", current, "of the tabu list.\n")
   
-  amat = arcs2amat(start$arcs, nodes)
-  adjacency_matrices_list[[iter]] <- amat
+  amat = arcs2amat(start$arcs, nodes) #AZAR
+  adjacency_matrices_list[[iter]] <- amat #AZAR
   
-  nparents = colSums(amat)
+  nparents = colSums(amat) #AZAR
   
   .Call(call_tabu_hash,
         amat = amat,
@@ -141,8 +141,8 @@ repeat {
                  maxp = maxp,
                  debug = debug)
   
-  cur_score <- bestop$score
-  cat("* BIC.score in iteration", iter, ":", sum(reference.score), "\n")
+  cur_score <- bestop$score #AZAR
+  cat("* BIC.score in iteration", iter, ":", sum(reference.score), "\n") #AZAR
   
   if (bestop$op == FALSE) {
     if (loss.iter >= max.loss.iter) {
@@ -198,28 +198,23 @@ repeat {
                          op = bestop$op, check.cycles = FALSE, check.illegal = FALSE,
                          update = TRUE, debug = FALSE)
   
-  BIC_score = sum(reference.score)
+  BIC_score = sum(reference.score) #AZAR
   
-  if (iter == 1) {
-    num_parameters = 0
+  if (iter == 1) {  
+    num_parameters = 0  
   } else {
     num_parameters = best_params_list[[length(best_params_list)]]
-  }
+  } #AZAR
   
-  log_likelihood = BIC_score + (num_parameters / 2) * log(n)
-  total_score <- total_score + log_likelihood
-  
-  cat(sprintf("Log-Likelihood in iteration %s: %s\n", iter, log_likelihood))
-  
-  best_scores_all[[length(best_scores_all) + 1]] <- sum(reference.score)
-  
-  params <- nparams.backend(x = start, data = x, debug = debug)
-  best_params_list[[length(best_params_list) + 1]] <- params
-  
-  weighted_matrix <- bestop$weights * amat
-  best_scores_list <- c(best_scores_list, log_likelihood )
-  
-  if (bestop$op == "reverse")
+  log_likelihood = BIC_score + (num_parameters / 2) * log(n) #AZAR
+  total_score <- total_score + log_likelihood  #AZAR
+  cat(sprintf("Log-Likelihood in iteration %s: %s\n", iter, log_likelihood)) #AZAR
+  best_scores_all[[length(best_scores_all) + 1]] <- sum(reference.score) #AZAR
+  params <- nparams.backend(x = start, data = x, debug = debug) #AZAR
+  best_params_list[[length(best_params_list) + 1]] <- params #AZAR
+   weighted_matrix <- bestop$weights * amat #AZAR
+  best_scores_list <- c(best_scores_list, log_likelihood ) #AZAR
+    if (bestop$op == "reverse")
     updated = which(nodes %in% c(bestop$from, bestop$to)) - 1L
   else
     updated = which(nodes %in% bestop$to) - 1L
@@ -234,11 +229,11 @@ repeat {
       cat("removing", bestop$from, "->", bestop$to, ".\n")
     else
       cat("reversing", bestop$from, "->", bestop$to, ".\n")
-    cat("* current network is :\n")
+    cat("* current network is :\n") 
     print(start)
-    cat(sprintf("* best score up to now: %s (delta: %s)\n",
+    cat(sprintf("* best score up to now: %s (delta: %s)\n", 
                 format(best.score),
-                format(robust.score.difference(sum(reference.score), best.score))))
+                format(robust.score.difference(sum(reference.score), best.score)))) #AZAR
   }
   
   if (iter >= max.iter) {
@@ -252,31 +247,31 @@ repeat {
   } else iter = iter + 1
 }
 
-cat("Total Summation of likelihood Scores after", iter, "iterations:", total_score, "\n")
-adjusted_scores <- as.numeric(unlist(best_scores_list)) / total_score
-cat("Total Summation of Scores after", iter , "iterations:", total_score, "\n")   
+cat("Total Summation of likelihood Scores after", iter, "iterations:", total_score, "\n") #AZAR
+adjusted_scores <- as.numeric(unlist(best_scores_list)) / total_score #AZAR
+cat("Total Summation of Scores after", iter , "iterations:", total_score, "\n")    #AZAR
 
-cat("Best Scores List (at every 10 iterations):\n")
-print(best_scores_all)
+cat("Best Scores List (at every 10 iterations):\n") #AZAR
+print(best_scores_all) #AZAR
 
 multiplied_scores <- lapply(1:length(adjusted_scores), function(i) {
   adjusted_scores[[i]] * adjacency_matrices_list[[i]]
-})
+}) #AZAR
 
-print(adjacency_matrices_list)
+print(adjacency_matrices_list) #AZAR
 
-cat("List of Multiplied Scores:\n")
-print(multiplied_scores)
+cat("List of Multiplied Scores:\n") #AZAR
+print(multiplied_scores) #AZAR
 
-final_matrix <- Reduce(`+`, multiplied_scores)
-cat("Final Matrix (sum of multiplied scores):\n")
-print(final_matrix)
+final_matrix <- Reduce(`+`, multiplied_scores) #AZAR
+cat("Final Matrix (sum of multiplied scores):\n") #AZAR
+print(final_matrix) #AZAR
 
-final_symmetric_matrix = final_matrix + t(final_matrix)
-cat("Final Symmetric Matrix:\n")
-print(final_symmetric_matrix)
+final_symmetric_matrix = final_matrix + t(final_matrix) #AZAR
+cat("Final Symmetric Matrix:\n") #AZAR
+print(final_symmetric_matrix) #AZAR
 
-final_graph <- graphviz.plot(start) 
+final_graph <- graphviz.plot(start)  #AZAR
 
 return(list(adjacency_matrices_list = adjacency_matrices_list, 
             best_scores_list = best_scores_list, 
@@ -284,10 +279,10 @@ return(list(adjacency_matrices_list = adjacency_matrices_list,
             multiplied_scores = multiplied_scores,
             final_matrix = final_matrix,
             final_network = start,
-            final_graph = final_graph))
+            final_graph = final_graph)) #AZAR
           
-best_scores_df <- data.frame(iteration = seq_along(best_scores_list), score = best_scores_list)
-write.csv(best_scores_df, file = "C:/Azar_Drive/relationships-between-variables1/01_preprocessing/best_scores.csv", row.names = FALSE)
-cat("Best scores list saved to 'best_scores.csv'\n")
+best_scores_df <- data.frame(iteration = seq_along(best_scores_list), score = best_scores_list) #AZAR
+write.csv(best_scores_df, file = "C:/Azar_Drive/relationships-between-variables1/01_preprocessing/best_scores.csv", row.names = FALSE) #AZAR
+cat("Best scores list saved to 'best_scores.csv'\n") #AZAR
   #return(start)
 }#TABU.SEARCH
