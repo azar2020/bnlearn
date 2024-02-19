@@ -156,7 +156,7 @@ best_scores_list <- list()
 #AZARRRRRRRRRRRRRRR
     
           cur_score <- bestop$score
-            cat("* sum(reference.score) in iteration", iter, ":", sum(reference.score), "\n")
+            cat("* BIC.score in iteration", iter, ":", sum(reference.score), "\n")
     
            
             #cat("Weight in iteration", iter , ":", log_likelihood/TOTALSCORE, "\n")
