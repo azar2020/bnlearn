@@ -54,91 +54,116 @@ tabu.search = function(x, start, whitelist, blacklist, score, extra.args,
     start$learning$args = extra.args
     start$learning$optimized = optimized
   }#THEN
-TOTALSCORE <- 0
+total_score <- 0
 best_scores_list <- list()
     # Create an empty list to store adjacency matrices
   adjacency_matrices_list <- list()
      best_scores_all <- list()
     best_params_list <- list()  # New list to store the number of parameters for each iteration
-    
-  repeat {
-    current = as.integer((iter - 1) %% tabu)
-    # keep the best network seen so far and its score value for the evaluation
-    # of the stopping rule; but always create a "best network" in the first
-    # iteration using the starting network.
-    if ((sum(reference.score) == -Inf) && (best.score == -Inf) && (iter > 1)) {
-      old.score = per.node.score(network = best.network, score = score,
-                      targets = nodes, extra.args = extra.args, data = x)
-      singular.old.nodes = (old.score == -Inf)
-      singular.new.nodes = (reference.score == -Inf)
-      if (all(singular.old.nodes == singular.new.nodes)) {
-        # if the same nodes are singular/not singular in both networks,
-        # disregard the singular nodes when comparing them.
-        delta = robust.score.difference(
-                  sum(reference.score[!singular.new.nodes]),
-                  sum(old.score[!singular.old.nodes]))
-      }#THEN
-      else if (sum(singular.new.nodes) > sum(singular.old.nodes)) {
-        # if there are more singular nodes in the new network than in the old
-        # network, the old one is better.
-        delta = -Inf
-      }#THEN
-      else if (sum(singular.new.nodes) < sum(singular.old.nodes)) {
-        # if the new network ha fewer singular nodes than the old network, the
-        # new one is better.
-        delta = +Inf
-      }#THEN
-      else {
-        delta = robust.score.difference(sum(reference.score), best.score)
-      }#ELSE
-      if (delta > 0) {
-        best.network = start
-        best.score = sum(reference.score)
-      }#THEN
-    }#ELSE
-    else if ((robust.score.difference(sum(reference.score), best.score) > 0) ||
-        (iter == 1)) {
+  #AZARRRRRRRRRRRRRRR
+repeat {
+  current = as.integer((iter - 1) %% tabu)
+  
+  # keep the best network seen so far and its score value for the evaluation
+  # of the stopping rule; but always create a "best network" in the first
+  # iteration using the starting network.
+  if ((sum(reference.score) == -Inf) && (best.score == -Inf) && (iter > 1)) {
+    old.score = per.node.score(network = best.network, score = score,
+                                targets = nodes, extra.args = extra.args, data = x)
+    singular.old.nodes = (old.score == -Inf)
+    singular.new.nodes = (reference.score == -Inf)
+    if (all(singular.old.nodes == singular.new.nodes)) {
+      delta = robust.score.difference(
+        sum(reference.score[!singular.new.nodes]),
+        sum(old.score[!singular.old.nodes]))
+    } else if (sum(singular.new.nodes) > sum(singular.old.nodes)) {
+      delta = -Inf
+    } else if (sum(singular.new.nodes) < sum(singular.old.nodes)) {
+      delta = +Inf
+    } else {
+      delta = robust.score.difference(sum(reference.score), best.score)
+    }
+    if (delta > 0) {
       best.network = start
       best.score = sum(reference.score)
-    }#THEN
-    if (debug)
-      cat("* iteration", iter, "using element", current, "of the tabu list.\n")
-    # build the adjacency matrix of the current network structure.
-    amat = arcs2amat(start$arcs, nodes)
-      # Append the current adjacency matrix to the list
-    adjacency_matrices_list[[iter]] <- amat
-    # compute the number of parents of each node.
-    nparents = colSums(amat)
-    # add the hash of the network into the tabu list for future reference.
-    # (BEWARE: in place modification of tabu.list!)
-    .Call(call_tabu_hash,
-          amat = amat,
-          nodes = nodes,
-          tabu.list = tabu.list,
-          current = current)
-    # set up the score cache (BEWARE: in place modification!).
-    .Call(call_score_cache_fill,
-          nodes = nodes,
-          data = x,
-          network = start,
-          score = score,
-          extra = extra.args,
-          reference = reference.score,
-          equivalence = score.equivalence && optimized,
-          decomposability = score.decomposability,
-          updated = (if (optimized) updated else seq(length(nodes)) - 1L),
-          amat = amat,
-          cache = cache,
-          blmat = blmat,
-          debug = debug)
-          
-   
-    # select which arcs should be tested for inclusion in the graph (hybrid
-    # learning algorithms should hook the restrict phase here).
-    to.be.added = arcs.to.be.added(amat = amat, nodes = nodes,
-                    blacklist = blmat, whitelist = NULL, nparents = nparents,
-                    maxp = maxp, arcs = FALSE)
-    # get the best arc addition/removal/reversal.
+    }
+  } else if ((robust.score.difference(sum(reference.score), best.score) > 0) ||
+               (iter == 1)) {
+    best.network = start
+    best.score = sum(reference.score)
+  }
+  
+  if (debug)
+    cat("* iteration", iter, "using element", current, "of the tabu list.\n")
+  
+  amat = arcs2amat(start$arcs, nodes)
+  adjacency_matrices_list[[iter]] <- amat
+  
+  nparents = colSums(amat)
+  
+  .Call(call_tabu_hash,
+        amat = amat,
+        nodes = nodes,
+        tabu.list = tabu.list,
+        current = current)
+  
+  .Call(call_score_cache_fill,
+        nodes = nodes,
+        data = x,
+        network = start,
+        score = score,
+        extra = extra.args,
+        reference = reference.score,
+        equivalence = score.equivalence && optimized,
+        decomposability = score.decomposability,
+        updated = (if (optimized) updated else seq(length(nodes)) - 1L),
+        amat = amat,
+        cache = cache,
+        blmat = blmat,
+        debug = debug)
+  
+  to.be.added = arcs.to.be.added(amat = amat, nodes = nodes,
+                                  blacklist = blmat, whitelist = NULL, nparents = nparents,
+                                  maxp = maxp, arcs = FALSE)
+  
+  bestop = .Call(call_tabu_step,
+                 amat = amat,
+                 nodes = nodes,
+                 added = to.be.added,
+                 cache = cache,
+                 reference = reference.score,
+                 wlmat = wlmat,
+                 blmat = blmat,
+                 tabu.list = tabu.list,
+                 current = current,
+                 baseline = 0,
+                 nparents = nparents,
+                 maxp = maxp,
+                 debug = debug)
+  
+  cur_score <- bestop$score
+  cat("* BIC.score in iteration", iter, ":", sum(reference.score), "\n")
+  
+  if (bestop$op == FALSE) {
+    if (loss.iter >= max.loss.iter) {
+      start = best.network
+      if (debug) {
+        cat("----------------------------------------------------------------\n")
+        cat("* maximum number of iterations without improvements reached, stopping.\n")
+        cat("* best network ever seen is:\n")
+        print(best.network)
+      }
+      break
+    } else {
+      loss.iter = loss.iter + 1
+    }
+    
+    if (debug) {
+      cat("----------------------------------------------------------------\n")
+      cat("* network score did not increase (for", loss.iter,
+          "times), looking for a minimal decrease :\n")
+    }
+    
     bestop = .Call(call_tabu_step,
                    amat = amat,
                    nodes = nodes,
@@ -149,181 +174,118 @@ best_scores_list <- list()
                    blmat = blmat,
                    tabu.list = tabu.list,
                    current = current,
-                   baseline = 0,
+                   baseline = -Inf,
                    nparents = nparents,
                    maxp = maxp,
                    debug = debug)
-#AZARRRRRRRRRRRRRRR
     
-          cur_score <- bestop$score
-            cat("* BIC.score in iteration", iter, ":", sum(reference.score), "\n")
-    
-           
-            #cat("Weight in iteration", iter , ":", log_likelihood/TOTALSCORE, "\n")
-    # the value FALSE is the canary value in bestop$op meaning "no operation
-    # improved the network score"; reconsider prevously discarded solutions
-    # and find the one that causes the minimum decrease in the network score.
     if (bestop$op == FALSE) {
-      if (loss.iter >= max.loss.iter) {
-        # reset the return value to the best network ever found.
-        start = best.network
-        if (debug) {
-          cat("----------------------------------------------------------------\n")
-          cat("* maximum number of iterations without improvements reached, stopping.\n")
-          cat("* best network ever seen is:\n")
-          print(best.network)
-        }#THEN
-        break
-      }#THEN
-      else {
-        # increase the counter of the iterations without improvements.
-        loss.iter = loss.iter + 1
-      }#ELSE
       if (debug) {
         cat("----------------------------------------------------------------\n")
-        cat("* network score did not increase (for", loss.iter,
-              "times), looking for a minimal decrease :\n")
-      }#THEN
-      bestop = .Call(call_tabu_step,
-                     amat = amat,
-                     nodes = nodes,
-                     added = to.be.added,
-                     cache = cache,
-                     reference = reference.score,
-                     wlmat = wlmat,
-                     blmat = blmat,
-                     tabu.list = tabu.list,
-                     current = current,
-                     baseline = -Inf,
-                     nparents = nparents,
-                     maxp = maxp,
-                     debug = debug)
-      # it might be that there are no more legal operations.
-      if (bestop$op == FALSE) {
-       if (debug) {
-         cat("----------------------------------------------------------------\n")
-         cat("* no more possible operations.\n")
-         cat("@ stopping at iteration", iter, ".\n")
-       }#THEN
-       # reset the return value to the best network ever found.
-       if (loss.iter > 0)
-         start = best.network
-       break
-     }#THEN
-    }#THEN
-    else {
-      if (robust.score.difference(sum(reference.score), best.score) > 0)
-        loss.iter = 0
-    }#ELSE
-    # update the network structure.
-    start = arc.operations(start, from = bestop$from, to = bestop$to,
-              op = bestop$op, check.cycles = FALSE, check.illegal = FALSE,
-              update = TRUE, debug = FALSE)
-#AZARRRRRRRRRRRRRRRRRRRRRRRRRRRR
-  # Calculate log-likelihood using BIC score, number of parameters, and n
-BIC_score = sum(reference.score)
-# Check if it's the first iteration (iteration count is zero)
-  if (iter == 1) {
-    # Handle the zero iteration case (initialize num_parameters to 0)
-    num_parameters = 0
-  } else {
-    # For subsequent iterations, get the number of parameters from the list
-    num_parameters = best_params_list[[length(best_params_list)]]
-  }
-log_likelihood = BIC_score + (num_parameters / 2) * log(n)
- TOTALSCORE <- TOTALSCORE + log_likelihood
-
-# Print or store log-likelihood for each iteration
-cat(sprintf("Log-Likelihood in iteration %s: %s\n", iter, log_likelihood))    
-
-
-    best_scores_all[[length(best_scores_all) + 1]] <- sum(reference.score)
-     # Calculate and store the number of parameters for the current graph
-      params <- nparams.backend(x = start, data = x, debug = debug)
-      best_params_list[[length(best_params_list) + 1]] <- params      
-  
-     # Multiply weights by adjacency matrix
-     weighted_matrix <- bestop$weights * amat
-     # Print the resulting matrix
-    #cat("* Weighted Matrix in iteration", iter, ":\n")
-    #print(weighted_matrix)
-    best_scores_list <- c(best_scores_list, log_likelihood )
-    
-    # set the nodes whose cached score deltas are to be updated.
-    if (bestop$op == "reverse")
-      updated = which(nodes %in% c(bestop$from, bestop$to)) - 1L
-    else
-      updated = which(nodes %in% bestop$to) - 1L
-    if (debug) {
-      # update the test counter of the network; very useful to check how many
-      # score comparison has been done up to now.
-      start$learning$ntests = test.counter()
-      cat("----------------------------------------------------------------\n")
-      cat("* best operation was: ")
-      if (bestop$op == "set")
-        cat("adding", bestop$from, "->", bestop$to, ".\n")
-      else if (bestop$op == "drop")
-        cat("removing", bestop$from, "->", bestop$to, ".\n")
-      else
-        cat("reversing", bestop$from, "->", bestop$to, ".\n")
-      cat("* current network is :\n")
-      print(start)
-       
-      #cat("* current score:", sum(reference.score), "\n")
-      cat(sprintf("* best score up to now: %s (delta: %s)\n",
-        format(best.score),
-        format(robust.score.difference(sum(reference.score), best.score))))
-    }#THEN
-    # check the current iteration index against max.iter.
-    if (iter >= max.iter) {
-      if (debug)
-        cat("@ stopping at iteration", max.iter, ".\n")
-      # reset the return value to the best network ever found.
+        cat("* no more possible operations.\n")
+        cat("@ stopping at iteration", iter, ".\n")
+      }
       if (loss.iter > 0)
         start = best.network
       break
-    }#THEN
-    else iter = iter + 1
-  }#REPEAT
-  cat("Total Summation of likelihood Scores after", iter, "iterations:", TOTALSCORE, "\n")
-  adjusted_scores <- as.numeric(unlist(best_scores_list)) / TOTALSCORE
-   cat("Total Summation of Scores after", iter , "iterations:", TOTALSCORE, "\n")   
-# Print best scores
+    }
+  } else {
+    if (robust.score.difference(sum(reference.score), best.score) > 0)
+      loss.iter = 0
+  }
+  
+  start = arc.operations(start, from = bestop$from, to = bestop$to,
+                         op = bestop$op, check.cycles = FALSE, check.illegal = FALSE,
+                         update = TRUE, debug = FALSE)
+  
+  BIC_score = sum(reference.score)
+  
+  if (iter == 1) {
+    num_parameters = 0
+  } else {
+    num_parameters = best_params_list[[length(best_params_list)]]
+  }
+  
+  log_likelihood = BIC_score + (num_parameters / 2) * log(n)
+  total_score <- total_score + log_likelihood
+  
+  cat(sprintf("Log-Likelihood in iteration %s: %s\n", iter, log_likelihood))
+  
+  best_scores_all[[length(best_scores_all) + 1]] <- sum(reference.score)
+  
+  params <- nparams.backend(x = start, data = x, debug = debug)
+  best_params_list[[length(best_params_list) + 1]] <- params
+  
+  weighted_matrix <- bestop$weights * amat
+  best_scores_list <- c(best_scores_list, log_likelihood )
+  
+  if (bestop$op == "reverse")
+    updated = which(nodes %in% c(bestop$from, bestop$to)) - 1L
+  else
+    updated = which(nodes %in% bestop$to) - 1L
+  
+  if (debug) {
+    start$learning$ntests = test.counter()
+    cat("----------------------------------------------------------------\n")
+    cat("* best operation was: ")
+    if (bestop$op == "set")
+      cat("adding", bestop$from, "->", bestop$to, ".\n")
+    else if (bestop$op == "drop")
+      cat("removing", bestop$from, "->", bestop$to, ".\n")
+    else
+      cat("reversing", bestop$from, "->", bestop$to, ".\n")
+    cat("* current network is :\n")
+    print(start)
+    cat(sprintf("* best score up to now: %s (delta: %s)\n",
+                format(best.score),
+                format(robust.score.difference(sum(reference.score), best.score))))
+  }
+  
+  if (iter >= max.iter) {
+    if (debug)
+      cat("@ stopping at iteration", max.iter, ".\n")
+    
+    if (loss.iter > 0)
+      start = best.network
+    
+    break
+  } else iter = iter + 1
+}
+
+cat("Total Summation of likelihood Scores after", iter, "iterations:", total_score, "\n")
+adjusted_scores <- as.numeric(unlist(best_scores_list)) / total_score
+cat("Total Summation of Scores after", iter , "iterations:", total_score, "\n")   
+
 cat("Best Scores List (at every 10 iterations):\n")
 print(best_scores_all)
-          
- # Perform multiplication outside the repeat loop
-  multiplied_scores <- lapply(1:length(adjusted_scores), function(i) {
-    adjusted_scores[[i]] * adjacency_matrices_list[[i]]
-      })
-          
-          # Return the list of adjacency matrices along with the final network structure
-         # cat("List of Adjacency Matrices:\n")
-  print(adjacency_matrices_list)
-  #Print the list of multiplied scores
-  cat("List of Multiplied Scores:\n")
-  print(multiplied_scores)
-            # Sum up all matrices element-wise
-  final_matrix <- Reduce(`+`, multiplied_scores)
- # Print the final matrix
-  cat("Final Matrix (sum of multiplied scores):\n")
-  print(final_matrix)
+
+multiplied_scores <- lapply(1:length(adjusted_scores), function(i) {
+  adjusted_scores[[i]] * adjacency_matrices_list[[i]]
+})
+
+print(adjacency_matrices_list)
+
+cat("List of Multiplied Scores:\n")
+print(multiplied_scores)
+
+final_matrix <- Reduce(`+`, multiplied_scores)
+cat("Final Matrix (sum of multiplied scores):\n")
+print(final_matrix)
+
 final_symmetric_matrix = final_matrix + t(final_matrix)
-          cat("Final Symmetric Matrix:\n")
-          print(final_symmetric_matrix)
-  # Plot the final graph
- final_graph <- graphviz.plot(start) 
-# Return the list of adjacency matrices along with the final network structure
+cat("Final Symmetric Matrix:\n")
+print(final_symmetric_matrix)
+
+final_graph <- graphviz.plot(start) 
+
 return(list(adjacency_matrices_list = adjacency_matrices_list, 
             best_scores_list = best_scores_list, 
-            best_params_list = best_params_list,  # Include the list of parameters
+            best_params_list = best_params_list,
             multiplied_scores = multiplied_scores,
             final_matrix = final_matrix,
             final_network = start,
-            final_graph = final_graph
-           ))
- # return(list(adjacency_matrices_list = adjacency_matrices_list, final_network = start))
-# Save best scores list to CSV
+            final_graph = final_graph))
+          
 best_scores_df <- data.frame(iteration = seq_along(best_scores_list), score = best_scores_list)
 write.csv(best_scores_df, file = "C:/Azar_Drive/relationships-between-variables1/01_preprocessing/best_scores.csv", row.names = FALSE)
 cat("Best scores list saved to 'best_scores.csv'\n")
