@@ -1,5 +1,8 @@
 # unified tabu search implementation (both optimized and by spec).
-tabu.search = function(x, start, whitelist, blacklist, score, extra.args,
+
+for (start_graph_index in 1:5) {
+    start_graph <- generate_random_graph(nodes)
+    result <-tabu.search = function(x, start, whitelist, blacklist, score, extra.args,
     max.iter, maxp, optimized, tabu, debug = FALSE) {
   # cache nodes' labels.
   nodes = names(x)
@@ -288,3 +291,4 @@ write.csv(best_scores_df, file = "C:/Azar_Drive/relationships-between-variables1
 cat("Best scores list saved to 'best_scores.csv'\n") #AZAR
   #return(start)
 }#TABU.SEARCH
+}
