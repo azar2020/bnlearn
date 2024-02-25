@@ -280,6 +280,7 @@ symmetric_matrices_list <- lapply(adjacency_matrices_list, function(mat) {
 mean_symmetric_matrix <- Reduce(`+`, symmetric_matrices_list) / length(symmetric_matrices_list) #AZAR
 
 # Print or use the resulting mean symmetric matrix
+cat("mean_symmetric_matrix:\n") #AZAR
 print(mean_symmetric_matrix)#AZAR
 
         
