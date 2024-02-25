@@ -271,6 +271,18 @@ final_symmetric_matrix = final_matrix + t(final_matrix) #AZAR
 cat("Final Symmetric Matrix:\n") #AZAR
 print(final_symmetric_matrix) #AZAR
 
+        # Extract symmetric matrices from adjacency_matrices_list
+symmetric_matrices_list <- lapply(adjacency_matrices_list, function(mat) {
+  mat + t(mat)
+}) #AZAR
+
+# Compute the element-wise mean across symmetric matrices
+mean_symmetric_matrix <- Reduce(`+`, symmetric_matrices_list) / length(symmetric_matrices_list) #AZAR
+
+# Print or use the resulting mean symmetric matrix
+print(mean_symmetric_matrix)#AZAR
+
+        
 final_graph <- graphviz.plot(start)  #AZAR
 
 return(list(adjacency_matrices_list = adjacency_matrices_list, 
