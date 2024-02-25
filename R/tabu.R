@@ -1,7 +1,7 @@
 # unified tabu search implementation (both optimized and by spec).
 
 for (start_graph_index in 1:5) {
-    start_graph <- c_ide_cozman(nodes)
+    start_graph <- random.graph(nodes = nodes, method = "melancon", num =2)
     result <-tabu.search = function(x, start, whitelist, blacklist, score, extra.args,
     max.iter, maxp, optimized, tabu, debug = FALSE) {
   # cache nodes' labels.
