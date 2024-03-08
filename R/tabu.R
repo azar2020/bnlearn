@@ -286,9 +286,9 @@ return(list(adjacency_matrices_list = adjacency_matrices_list,
            final_symmetric_matrix = final_symmetric_matrix)) #AZAR
           
 best_scores_df <- data.frame(iteration = seq_along(best_scores_list), score = best_scores_list) #AZAR
-write.csv(best_scores_df, file = "C:/Azar_Drive/relationships-between-variables1/01_preprocessing/best_scores.csv", row.names = FALSE) #AZAR
+#write.csv(best_scores_df, file = "C:/Azar_Drive/relationships-between-variables1/01_preprocessing/best_scores.csv", row.names = FALSE) #AZAR
 cat("Best scores list saved to 'best_scores.csv'\n") #AZAR
-write.csv(final_symmetric_matrix, file = "C:/Azar_Drive/relationships-between-variables1/01_preprocessing/final_symmetric_matrix.csv", row.names = FALSE) #AZAR
+#write.csv(final_symmetric_matrix, file = "C:/Azar_Drive/relationships-between-variables1/01_preprocessing/final_symmetric_matrix.csv", row.names = FALSE) #AZAR
 cat("Best scores list saved to 'final_symmetric_matrix.csv'\n") #AZAR
 
         
