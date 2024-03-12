@@ -93,7 +93,7 @@ there:
 
 
 /*AZARRRRRRRRRRRRRRRRRRRRRRRRRRRR*/
-double totalScore = 0.0;
+double totalScore = 0.0; /*AZAR*/
 
 
 SEXP tabu_step(SEXP amat, SEXP nodes, SEXP added, SEXP cache, SEXP reference,
@@ -188,9 +188,9 @@ SEXP bestop;
   Free1D(scratch);
 
 /*AZARRRRRRRRRRRRRRRRRRRRRRRRRRR*/
-  /*Rprintf("Iteration %d - Current Score: %lf\n", *cur, max); */
-     totalScore += max;
-Rprintf("Adjacency Matrix:\n");
+  /*Rprintf("Iteration %d - Current Score: %lf\n", *cur, max); */ /*AZAR*/
+     totalScore += max; /*AZAR*/
+Rprintf("Adjacency Matrix:\n"); /*AZAR*/
     for (int i = 0; i < nnodes; i++) {
       for (int j = 0; j < nnodes; j++) {
         Rprintf("%d ", am[CMC(i, j, nnodes)]);
@@ -200,7 +200,7 @@ Rprintf("Adjacency Matrix:\n");
 
     Rprintf("\n");
        
-   printf("Total Summation of Scores after %d iterations:  %lf\n",*cur, totalScore);
+   printf("Total Summation of Scores after %d iterations:  %lf\n",*cur, totalScore); /*AZAR*/
     
 
 
